@@ -3,21 +3,14 @@ import java.util.Random;
 
 public class Main {
 
-    public static void main(String[] args) {
-        final int NUMBER_OF_DATA = 10;
-        ArrayList<Data> DataArray = new ArrayList<Data>();
-
-        for (int i = 0 ; i < NUMBER_OF_DATA ; i ++)
-        {
-            DataArray.add(new Data(generateInteger(), generateInteger()));
-        }
-    }
-
-    private static int generateInteger()
+    public static void main(String[] args)
     {
-        final int MAX = 10;
+        Data d = new Data(0,0);
+        Thread Generator = new Thread(new Data(0,0));
+        CalculatorThread c = new CalculatorThread(d);
 
-        Random rand = new Random();
-        return rand.nextInt(MAX);
+        g.start();
+        c.start();
     }
+
 }

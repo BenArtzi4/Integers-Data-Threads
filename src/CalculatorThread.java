@@ -1,3 +1,3 @@
-public class CalculatorThread extends Thread{
-
+public class CalculatorThread
+{
 }

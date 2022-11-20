@@ -1,2 +1,3 @@
-public class GeneratorThread extends Thread{
+public class GeneratorThread
+{
 }
