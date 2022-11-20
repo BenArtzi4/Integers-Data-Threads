@@ -1,4 +1,4 @@
-public class Data extends Thread
+public class Data
 {
     private int x = 0;
     private int y = 0;
