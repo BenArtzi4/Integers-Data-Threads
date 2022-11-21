@@ -17,7 +17,6 @@ public class Main {
 
 
         Data2 data2 = new Data2(0,0);
-
         ArrayList<Thread> threads = new ArrayList<Thread>();
         for (int i = 0 ; i < 4 ; i ++)
         {
@@ -26,10 +25,10 @@ public class Main {
 
         }
 
+
         for (int i = 0 ; i < 8 ; i ++)
         {
             threads.get(i).start();
         }
-
     }
 }
