@@ -1,4 +1,6 @@
 import java.util.Random;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 public class Data extends  Thread
 {
@@ -7,6 +9,9 @@ public class Data extends  Thread
     boolean inUse = false;
     int currentNum = -1;
     int finished = 0;
+    Lock lock = new ReentrantLock();
+    boolean updating = false;
+    boolean gettingDiff = false;
 
 
 
@@ -15,15 +20,60 @@ public class Data extends  Thread
         this.y = y;
     }
 
+    /*
+    Using the lock and the boolean cariable updating help us that
+     */
     public int getDiff()
     {
-        return Math.abs(x - y);
+        try{
+            if (updating = true)
+            {
+                lock.lock();
+                try {
+                    gettingDiff = true;
+                    return Math.abs(x - y);
+                }
+                finally {
+                    lock.unlock();
+                }
+            }
+            lock.unlock();
+            return Math.abs(x - y);
+        }
+        finally {
+            gettingDiff = false;
+            notifyAll();
+        }
+
     }
+
+    /*
+    While using gettingDiff method the object will wait while trying to update.
+    notifyAll function will activate just after getDiff finish
+     */
     public synchronized void update(int dx, int dy)
     {
-        x = x + dx;
-        y = y + dy;
-        System.out.println("["+this.x + "," + this.y + "]");
+        while(gettingDiff)
+        {
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        lock.lock();
+        updating = true;
+        try
+        {
+            x = x + dx;
+            y = y + dy;
+            System.out.println("["+this.x + "," + this.y + "]");
+        }
+        finally {
+            lock.unlock();
+            updating = false;
+        }
+
     }
 
     public synchronized void synchronizedMethod(String act, int num) throws InterruptedException
