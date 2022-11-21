@@ -4,6 +4,10 @@ public class Data2 extends  Thread
 {
     private int x = 0;
     private int y = 0;
+    boolean inUse = false;
+    boolean updated = false;
+    int currentNum = -1;
+
 
 
     public Data2 (int x, int y){
@@ -22,28 +26,39 @@ public class Data2 extends  Thread
         System.out.println("["+this.x + "," + this.y + "]");
     }
 
-    public synchronized void synchronizedMethod(String act)
-    {
+    public synchronized void synchronizedMethod(String act, int num) throws InterruptedException {
+
+
+        /*
+        While it's not the right number and
+         */
+        while (  !  (  (!inUse && act.equals("generate")) || (currentNum == num && act.equals("calculate"))   )     )
+        {
+            wait();
+        }
+
+        //System.out.println("Act: " + act +"\tNum: " + num +"\tInUse: " + inUse + "\tUpdated:" + updated + "\tCurrentNum: " + currentNum);
+
+
         if (act.equals("generate"))
         {
+
+            System.out.println("Thread number: " + num);
+
             update(generateNumber(), generateNumber());
-            notify();
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            notifyAll();
+            inUse = true;
+            updated = true;
+            currentNum = num;
         }
-        if (act.equals("calculate"))
+        else
         {
             System.out.println("Difference is: " + getDiff());
-            notify();
-            try {
-                wait();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            inUse = false;
+            notifyAll();
+            updated = false;
         }
+
     }
 
     private int generateNumber()
