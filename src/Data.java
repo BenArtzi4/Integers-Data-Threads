@@ -115,6 +115,9 @@ public class Data extends  Thread
             currentNum = num;
             notifyAll();
         }
+        /*
+        If it's not an update type act then it's a get the difference act type
+         */
         else
         {
             System.out.println("The difference is: " + getDiff());
@@ -124,16 +127,16 @@ public class Data extends  Thread
             finished++;
             System.out.println("Finished: " + finished);
             System.out.println("I'm Thread number: " + num + "\tMy act is:" + act + "It's my turn so I calculate\n\n");
-
         }
-
-
     }
 
+    /*
+    Generate a random number between 1 and 10
+     */
     private int generateNumber()
     {
         final int MAX_VALUE = 10;
         Random rand = new Random();
-        return rand.nextInt(MAX_VALUE);
+        return rand.nextInt(MAX_VALUE) + 1;
     }
 }
