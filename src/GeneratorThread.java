@@ -2,7 +2,7 @@ import java.util.Random;
 
 public class GeneratorThread extends Thread {
     Data data;
-    String act = "generate";
+    String act = "update";
     int num;
     final int RUNNING_TIMES = 10;
     final int MAX_VALUE = 10;

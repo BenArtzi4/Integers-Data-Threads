@@ -2,20 +2,32 @@ import java.util.Random;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
+/*
+A class representing two integers
+ */
 public class Data extends  Thread
 {
     private int x = 0;
     private int y = 0;
+    // A variable used to execute that a thread has made an update and is waiting for it
     boolean inUse = false;
+    // A variable that holds the number of the thread that performed the update
     int currentNum = -1;
+    // A variable updates how many updates to get the differences have been made
     int finished = 0;
+    // A lock to prevent parallel execution of updating and getting the data
     Lock lock = new ReentrantLock();
+    // A Boolean variable describing whether an update is in progress
     boolean updating = false;
+    // A Boolean variable describing whether get the difference is performed
     boolean gettingDiff = false;
 
 
-
-    public Data (int x, int y){
+    /*
+    A constructor that initializes both class numbers
+     */
+    public Data (int x, int y)
+    {
         this.x = x;
         this.y = y;
     }
@@ -76,20 +88,25 @@ public class Data extends  Thread
 
     }
 
+    /*
+     A method that synchronizes thread operations according to the data update and fetching by the appropriate thread while the program is running
+     */
     public synchronized void synchronizedMethod(String act, int num) throws InterruptedException
     {
         /*
-        While it's not the right number or generate waiting for calculate
+        While it's not the right number or update - waiting for calculate
          */
-        while (  !  (  (!inUse && act.equals("generate")) || (currentNum == num && act.equals("calculate"))   )     )
+        while (  !  (  (!inUse && act.equals("update")) || (currentNum == num && act.equals("calculate"))   )     )
         {
             System.out.println("I'm Thread number: " + num + "\tMy act is:" + act + "It's not my turn yet so I'll go into wait mode\n");
             wait();
             System.out.println("I'm Thread number: " + num + "\tMy act is:" + act + "It might be my turn so I'll come out of wait mode\n");
-
         }
 
-        if (act.equals("generate"))
+        /*
+        We will perform an update only if the accessed thread is of the update type
+         */
+        if (act.equals("update"))
         {
             System.out.println("I'm Thread number: " + num + "\tMy act is:" + act + "It's my turn so I update");
 
