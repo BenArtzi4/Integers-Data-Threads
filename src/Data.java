@@ -83,11 +83,16 @@ public class Data extends  Thread
          */
         while (  !  (  (!inUse && act.equals("generate")) || (currentNum == num && act.equals("calculate"))   )     )
         {
+            System.out.println("I'm Thread number: " + num + "\tMy act is:" + act + "It's not my turn yet so I'll go into wait mode\n");
             wait();
+            System.out.println("I'm Thread number: " + num + "\tMy act is:" + act + "It might be my turn so I'll come out of wait mode\n");
+
         }
 
         if (act.equals("generate"))
         {
+            System.out.println("I'm Thread number: " + num + "\tMy act is:" + act + "It's my turn so I update");
+
             update(generateNumber(), generateNumber());
             inUse = true;
             currentNum = num;
@@ -100,7 +105,9 @@ public class Data extends  Thread
             inUse = false;
             currentNum = -1;
             finished++;
-            System.out.println("Finished: " + finished + "\n");
+            System.out.println("Finished: " + finished);
+            System.out.println("I'm Thread number: " + num + "\tMy act is:" + act + "It's my turn so I calculate\n\n");
+
         }
 
 
