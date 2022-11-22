@@ -7,7 +7,7 @@ public class GeneratorThread extends Thread {
     final int RUNNING_TIMES = 10;
     final int MAX_VALUE = 10;
 
-    public GeneratorThread(Data data, int num) throws InterruptedException {
+    public GeneratorThread(Data data, int num){
         this.data = data;
         this.num = num;
     }

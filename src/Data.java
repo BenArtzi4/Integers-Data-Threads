@@ -33,7 +33,7 @@ public class Data extends  Thread
     }
 
     /*
-    Using the lock and the boolean cariable updating help us that
+    Using the lock and the boolean variable updating help us that
      */
     public int getDiff()
     {
@@ -98,9 +98,9 @@ public class Data extends  Thread
          */
         while (  !  (  (!inUse && act.equals("update")) || (currentNum == num && act.equals("calculate"))   )     )
         {
-            System.out.println("I'm Thread number: " + num + "\tMy act is:" + act + "It's not my turn yet so I'll go into wait mode\n");
+            System.out.println("I'm Thread number: " + num + "\tMy act is: " + act + ".\tIt's not my turn yet so I'll go into wait mode\n");
             wait();
-            System.out.println("I'm Thread number: " + num + "\tMy act is:" + act + "It might be my turn so I'll come out of wait mode\n");
+            System.out.println("I'm Thread number: " + num + "\tMy act is:" + act + ".\tIt might be my turn so I'll come out of wait mode");
         }
 
         /*
@@ -108,7 +108,7 @@ public class Data extends  Thread
          */
         if (act.equals("update"))
         {
-            System.out.println("I'm Thread number: " + num + "\tMy act is:" + act + "It's my turn so I update");
+            System.out.println("I'm Thread number: " + num + "\tMy act is: " + act + ".\tIt's my turn so I update");
 
             update(generateNumber(), generateNumber());
             inUse = true;
@@ -120,13 +120,13 @@ public class Data extends  Thread
          */
         else
         {
+            System.out.println("I'm Thread number: " + num + "\tMy act is: " + act + ".\tIt's my turn so I calculate");
             System.out.println("The difference is: " + getDiff());
             notifyAll();
             inUse = false;
             currentNum = -1;
             finished++;
-            System.out.println("Finished: " + finished);
-            System.out.println("I'm Thread number: " + num + "\tMy act is:" + act + "It's my turn so I calculate\n\n");
+            System.out.println("Finished: " + finished + "\n\n");
         }
     }
 
