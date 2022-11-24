@@ -38,25 +38,27 @@ public class Data extends  Thread
     public int getDiff()
     {
         try{
+            /*
+            Me make that variable 'true' in order to mark that we have entered the 'getDiff'.
+            This is so that we do not update the data at the same time
+             */
+            gettingDiff = true;
+            // If we update then we will not allow the data to be fetched
             if (updating = true)
             {
+                //When we finish updating we will return the current value (the lock opens)
                 lock.lock();
-                try {
-                    gettingDiff = true;
-                    return Math.abs(x - y);
-                }
-                finally {
-                    lock.unlock();
-                }
+                gettingDiff = true;
+
             }
-            lock.unlock();
-            return Math.abs(x - y);
         }
         finally {
             gettingDiff = false;
             notifyAll();
+            // After we get the difference back we will allow to be updated by opening the lock
+            lock.unlock();
         }
-
+        return Math.abs(x - y);
     }
 
     /*
@@ -65,6 +67,7 @@ public class Data extends  Thread
      */
     public synchronized void update(int dx, int dy)
     {
+        // As long as we get the difference then we will not update the data
         while(gettingDiff)
         {
             try {
@@ -73,15 +76,18 @@ public class Data extends  Thread
                 e.printStackTrace();
             }
         }
+        // After finishing bringing the difference we can update
         lock.lock();
         updating = true;
         try
         {
+            // We will update the data and print their value after the update
             x = x + dx;
             y = y + dy;
             System.out.println("["+this.x + "," + this.y + "]");
         }
         finally {
+            // When we finish updating, we will open the lock so as not to prevent the method from being used
             lock.unlock();
             updating = false;
         }
