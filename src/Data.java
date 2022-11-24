@@ -5,7 +5,7 @@ import java.util.concurrent.locks.ReentrantLock;
 /*
 A class representing two integers
  */
-public class Data extends  Thread
+public class Data extends Thread
 {
     private int x = 0;
     private int y = 0;
@@ -21,7 +21,6 @@ public class Data extends  Thread
     boolean updating = false;
     // A Boolean variable describing whether get the difference is performed
     boolean gettingDiff = false;
-
 
     /*
     A constructor that initializes both class numbers
@@ -51,8 +50,7 @@ public class Data extends  Thread
                 gettingDiff = true;
 
             }
-        }
-        finally {
+        } finally {
             gettingDiff = false;
             notifyAll();
             // After we get the difference back we will allow to be updated by opening the lock
@@ -79,14 +77,12 @@ public class Data extends  Thread
         // After finishing bringing the difference we can update
         lock.lock();
         updating = true;
-        try
-        {
+        try {
             // We will update the data and print their value after the update
             x = x + dx;
             y = y + dy;
             System.out.println("["+this.x + "," + this.y + "]");
-        }
-        finally {
+        } finally {
             // When we finish updating, we will open the lock so as not to prevent the method from being used
             lock.unlock();
             updating = false;
