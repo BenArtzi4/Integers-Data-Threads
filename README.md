@@ -6,10 +6,7 @@ This repository contains a Java program that demonstrates multithreading concept
 
 - [Introduction](#introduction)
 - [Classes](#classes)
-- [Usage](#usage)
 - [Issues](#issues)
-- [Contributing](#contributing)
-- [License](#license)
 
 ## Introduction
 
